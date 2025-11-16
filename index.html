@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şifre Güç Analiz Aracı</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Buttons -->
+        <div class="header-buttons">
+            <button id="languageToggle">🌐 TR</button>
+            <button id="themeToggle">🌙 Koyu Mod</button>
+        </div>
+
+        <h1 id="mainTitle">🔐 Şifre Güç Analiz Aracı</h1>
+        
+        <!-- Password Input -->
+        <div class="input-group">
+            <input type="password" id="passwordInput" placeholder="Şifrenizi girin...">
+            <button id="toggleVisibility">👁️</button>
+        </div>
+
+        
+        <div class="strength-meter">
+            <div class="strength-bar" id="strengthBar"></div>
+        </div>
+        <div class="strength-text" id="strengthText">Şifre gücü: Bekleniyor...</div>
+
+        
+        <div class="analysis-container">
+            <h3 id="analysisTitle">📊 Detaylı Analiz</h3>
+            <div id="analysisResults"></div>
+        </div>
+
+        <div class="health-container">
+            <h3 id="healthTitle">🏥 Şifre Sağlık Skoru</h3>
+            <div class="health-score">
+                <div class="score-circle">
+                    <span id="healthScore">0</span>
+                </div>
+                <div class="health-breakdown" id="healthBreakdown"></div>
+            </div>
+        </div>
+
+        <div class="audit-container">
+            <h3 id="auditTitle">🔍 Güvenlik Denetimi</h3>
+            <div class="audit-results" id="auditResults"></div>
+        </div>
+
+        <div class="pattern-container">
+            <h3 id="patternTitle">🎯 Pattern Analizi</h3>
+            <div class="pattern-results" id="patternResults"></div>
+        </div>
+
+        
+        <div class="comparison-container">
+            <h3 id="comparisonTitle">🔄 Şifre Karşılaştırması</h3>
+            <div class="comparison-controls">
+                <button id="addComparePassword">Karşılaştırmaya Ekle</button>
+                <button id="clearComparison">Karşılaştırmayı Temizle</button>
+            </div>
+            <div class="comparison-results" id="comparisonResults">
+                <div class="comparison-empty">Karşılaştırma için şifre eklenmedi</div>
+            </div>
+        </div>
+
+        
+        <div class="policy-container">
+            <h3 id="policyTitle">⚙️ Şifre Kuralı Motoru</h3>
+            <div class="policy-controls">
+                <div class="policy-setting">
+                    <label id="policyMinLengthLabel">Minimum Uzunluk:</label>
+                    <input type="number" id="policyMinLength" value="12" min="8" max="50">
+                </div>
+                <div class="policy-setting">
+                    <label>
+                        <input type="checkbox" id="policyRequireUpper" checked>
+                        <span id="policyRequireUpperLabel">Büyük Harf Zorunlu</span>
+                    </label>
+                </div>
+                <div class="policy-setting">
+                    <label>
+                        <input type="checkbox" id="policyRequireLower" checked>
+                        <span id="policyRequireLowerLabel">Küçük Harf Zorunlu</span>
+                    </label>
+                </div>
+                <div class="policy-setting">
+                    <label>
+                        <input type="checkbox" id="policyRequireNumbers" checked>
+                        <span id="policyRequireNumbersLabel">Rakam Zorunlu</span>
+                    </label>
+                </div>
+                <div class="policy-setting">
+                    <label>
+                        <input type="checkbox" id="policyRequireSpecial" checked>
+                        <span id="policyRequireSpecialLabel">Özel Karakter Zorunlu</span>
+                    </label>
+                </div>
+                <div class="policy-setting">
+                    <label id="policyMaxAgeLabel">Maksimum Ömür (gün):</label>
+                    <input type="number" id="policyMaxAge" value="90" min="30" max="365">
+                </div>
+                <div class="policy-setting">
+                    <label>
+                        <input type="checkbox" id="policyPreventReuse">
+                        <span id="policyPreventReuseLabel">Şifre Tekrarını Engelle</span>
+                    </label>
+                </div>
+                <div class="policy-actions">
+                    <button id="generatePolicy">Kuralları Oluştur</button>
+                    <button id="applyPolicy">Kuralları Uygula</button>
+                </div>
+            </div>
+            <div class="policy-results" id="policyResults"></div>
+            <div class="policy-validation" id="policyValidation"></div>
+        </div>
+
+        
+        <div class="charts-container">
+            <h3 id="chartsTitle">📈 Analitik & Raporlar</h3>
+            
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title" id="strengthChartTitle">Güç Trendi</div>
+                    <div class="chart-wrapper">
+                        <canvas id="strengthChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title" id="characterChartTitle">Karakter Dağılımı</div>
+                    <div class="chart-wrapper">
+                        <canvas id="characterChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="export-buttons">
+                <button class="export-btn" id="exportPDF">📄 PDF İndir</button>
+                <button class="export-btn" id="exportCSV">📊 CSV İndir</button>
+            </div>
+        </div>
+
+        
+        <div class="history-container">
+            <h3 id="historyTitle">📜 Şifre Geçmişi</h3>
+            <div class="history-list" id="historyList">
+                <div class="history-empty">Henüz şifre analiz edilmedi</div>
+            </div>
+        </div>
+
+      
+        <div class="bruteforce-container">
+            <h3 id="bruteforceTitle">🔓 Bruteforce Simülasyonu</h3>
+            <div class="attack-type">
+                <label id="attackTypeLabel">Saldırı Tipi:</label>
+                <select id="attackType">
+                    <option value="bruteforce">Bruteforce</option>
+                    <option value="dictionary">Sözlük Saldırısı</option>
+                </select>
+            </div>
+            <div class="speed-selection">
+                <label id="attackSpeedLabel">Saldırı Hızı:</label>
+                <select id="attackSpeed">
+                    <option value="1e6">Normal PC (1M tahmin/s)</option>
+                    <option value="1e9">Gaming PC (1B tahmin/s)</option>
+                    <option value="1e12">GPU Cluster (1T tahmin/s)</option>
+                </select>
+            </div>
+            <div class="simulation">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="simulation-info">
+                    <div id="currentGuess"></div>
+                    <div id="timeEstimate"></div>
+                    <div id="progressText"></div>
+                </div>
+                <button id="startSimulation">Simülasyonu Başlat</button>
+            </div>
+        </div>
+
+      
+        <div class="generator-container">
+            <h3 id="generatorTitle">🎲 Şifre Üretici</h3>
+            <input type="text" id="generatedPassword" readonly>
+            <button id="generateBtn">Yeni Şifre Üret</button>
+            <button id="copyBtn">Kopyala</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
